@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productcatalogue
+  namespace: shopfront
+spec:
+  selector:
+    matchLabels:
+      app: productcatalogue
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: productcatalogue
+    spec:
+      containers:
+      - name: productcatalogue
+        image: thetips4you/productcatalogue:latest
+        ports:
+        - containerPort: 8020
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 8025
+          initialDelaySeconds: 30
+          timeoutSeconds: 1

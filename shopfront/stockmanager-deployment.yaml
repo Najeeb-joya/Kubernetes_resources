@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockmanager
+  namespace: shopfront
+spec:
+  selector:
+    matchLabels:
+      app: stockmanager
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stockmanager
+    spec:
+      containers:
+      - name: stockmanager
+        image: thetips4you/stockmanager:latest
+        ports:
+        - containerPort: 8030
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8030
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
