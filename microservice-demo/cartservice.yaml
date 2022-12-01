@@ -1,9 +1,9 @@
 apiVersion: apps/v1 
 kind: Deployment 
 metadata: 
-    name: cartervice
+    name: cartservice
 spec: 
-    replicas: 1
+    replicas: 2
     selector: 
         matchLabels:   ## Must be checked 
             app: cartservice
