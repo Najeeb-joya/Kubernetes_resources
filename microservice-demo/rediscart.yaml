@@ -1,0 +1,42 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+    name: redis-cart
+spec: 
+    replicas: 1
+    selector: 
+        matchLabels:   ## Must be checked 
+            app: redis-cart
+    template:
+        metadata: 
+            name: redis-cart
+            labels: 
+                app: redis-cart
+        spec: 
+            containers: 
+            -   name: redis-cart
+                image: redis:alpine
+                ports: 
+                -   containerPort: 6379
+                volumeMounts: 
+                - name: redis-data 
+                  mountPath: /home/redis/data
+            volumes: 
+            - name: redis-data  
+              emptyDir: {}
+              
+              
+--- 
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: redis-cart-svc
+spec: 
+  selector: 
+    app: redis-cart
+  type: ClusterIP
+  ports: 
+  - protocol: TCP 
+    port: 6379
+    targetPort: 6379
+    

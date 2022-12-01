@@ -1,0 +1,39 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+    name: recommendationservice
+spec: 
+    replicas: 1
+    selector: 
+        matchLabels:   ## Must be checked 
+            app: recommendationservice      
+    template:
+        metadata: 
+            name: recommendationservice
+            labels: 
+                app: recommendationservice
+        spec: 
+            containers: 
+            -   name: recommendationservice
+                image: gcr.io/google-samples/microservices-demo/recommendationservice:v0.4.2
+                ports: 
+                -   containerPort: 8080 
+                env: 
+                -   name: PORT 
+                    value: "8080"
+                -   name: PRODUCT_CATALOG_SERVICE_ADDR
+                    value: "productcatalogservice:3550"
+--- 
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: recommendationservice
+spec: 
+  selector: 
+    app: recommendationservice
+  type: ClusterIP
+  ports: 
+  - protocol: TCP 
+    port: 8080 
+    targetPort: 8080 
+    
