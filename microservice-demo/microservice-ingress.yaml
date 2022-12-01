@@ -1,0 +1,29 @@
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: microservice-ingress
+    namespace: default
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.m-shopping.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: frontendservice
+                  port:
+                    number: 8080
+              path: /
+      - host: www.demo-shopping.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: frontendservice
+                  port:
+                    number: 8080
+              path: /
+
